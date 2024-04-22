@@ -1,3 +1,3 @@
-export default function taskBlock (trueOrFalse) {
+export default function taskBlock() {
   return [false, true];
 }
