@@ -1,13 +1,11 @@
-export default function cleanSet(set, string) {
-  if (string.length === 0 || string === undefined) {
+const cleanSet = (set, startString) => {
+  if (startString === undefined || startString.length === 0) {
     return '';
   }
-  let subString = '';
+  return [...set]
+    .filter((parametro) => (parametro !== undefined ? parametro.startsWith(startString) : ''))
+    .map((parametro) => (parametro !== undefined ? parametro.slice(startString.length) : ''))
+    .join('-');
+};
 
-  for (const element of set) {
-    if (element.startsWith(string)) {
-      subString += `${element.slice(string.length)}-`;
-    }
-  }
-  return subString.slice(0, -1);
-}
+export default cleanSet;
