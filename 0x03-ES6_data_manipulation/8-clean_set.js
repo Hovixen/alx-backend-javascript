@@ -1,5 +1,5 @@
 export default function cleanSet(set, string) {
-  if (string.length === 0) {
+  if (string === '') {
     return '';
   }
   let subString = '';
