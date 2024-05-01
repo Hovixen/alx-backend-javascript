@@ -1,7 +1,7 @@
 export const weakMap = new WeakMap();
 
 // Define the queryAPI function
-export default function queryAPI(endpoint) {
+export function queryAPI(endpoint) {
   // Check if the endpoint argument is provided and has required properties
   if (!endpoint || typeof endpoint !== 'object' || !endpoint.protocol || !endpoint.name) {
     throw new Error('Invalid endpoint');
@@ -20,4 +20,3 @@ export default function queryAPI(endpoint) {
 
   // Return some result or perform API query
 }
-
