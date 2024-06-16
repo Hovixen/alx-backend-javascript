@@ -21,8 +21,8 @@ function countStudents(file) {
         }
       });
 
-      const totalStudent = Object.values(studentByField).reduce((acc, stud) => acc + stud.length, 0);
-      console.log(`Number of students: ${totalStudent}`);
+      const students = Object.values(studentByField).reduce((acc, stud) => acc + stud.length, 0);
+      console.log(`Number of students: ${students}`);
 
       for (const [field, studs] of Object.entries(studentByField)) {
         console.log(`Number of students in ${field}: ${studs.length}. List: ${studs.join(',')}`);
