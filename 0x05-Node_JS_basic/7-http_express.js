@@ -43,6 +43,10 @@ function countStudents(file) {
 
 const app = express();
 
+app.get('/', (req, res) => {
+  res.send('Hello Holberton School!');
+});
+
 app.get('/students', async (req, res) => {
   res.write('This is the list of our students\n');
   const dataFile = process.argv[2];
@@ -54,8 +58,9 @@ app.get('/students', async (req, res) => {
       res.write(error.message);
     }
   } else {
-    res.end('No database provided');
+    res.write('No database provided');
   }
+  res.end();
 });
 
 app.listen(port, () => {
