@@ -10,7 +10,10 @@ const port = 1245;
 function countStudents(file) {
   return new Promise((resolve, reject) => {
     fs.readFile(file, 'utf-8', (err, data) => {
-      if (err) reject(new Error('Cannot load the database'));
+      if (err) {
+        reject(new Error('Cannot load the database'));
+        return;
+      }
 
       const lines = data.trim().split('\n');
       lines.shift();
