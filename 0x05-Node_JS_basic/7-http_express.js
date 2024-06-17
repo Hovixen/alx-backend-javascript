@@ -44,11 +44,11 @@ function countStudents(file) {
 const app = express();
 
 app.get('/students', async (req, res) => {
-  res.write('This is the list of our students\n');
   const dataFile = process.argv[2];
   if (dataFile) {
     try {
       const studentData = await countStudents(dataFile);
+      res.write('This is the list of our students\n');
       res.write(studentData);
     } catch (error) {
       res.write(error.message);
@@ -58,7 +58,6 @@ app.get('/students', async (req, res) => {
   }
   res.end();
 });
-
 app.listen(port, () => {
   console.log(`Server is listening on port: ${port}`);
 });
