@@ -12,7 +12,7 @@ function countStudents(file) {
     fs.readFile(file, 'utf-8', (err, data) => {
       if (err) reject(new Error('Cannot load the database'));
 
-      const lines = data.split('\n');
+      const lines = data.trim().split('\n');
       lines.shift();
 
       const studentByField = {};
@@ -40,26 +40,19 @@ function countStudents(file) {
 
 const app = express();
 
-app.get('/', (req, res) => {
-  res.send('Hello Holberton School!');
-});
-
 app.get('/students', async (req, res) => {
-  res.write('This is the list of our students\n');
   const dataFile = process.argv[2];
   if (dataFile) {
     try {
       const studentData = await countStudents(dataFile);
-      res.write(studentData);
+      res.send(`This is the list of our students\n${studentData}`);
     } catch (error) {
-      res.write(error.message);
+      res.send(error.message);
     }
   } else {
-    res.write('No database provided');
+    res.send('No database provided');
   }
-  res.end();
 });
-
 app.listen(port, () => {
   console.log(`Server is listening on port: ${port}`);
 });
