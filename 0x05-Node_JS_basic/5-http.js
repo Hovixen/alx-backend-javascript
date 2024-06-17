@@ -4,11 +4,12 @@
 
 const fs = require('fs').promises;
 const http = require('http');
+
 const port = 1245;
 
 async function countStudents(file) {
   try {
-    const data = await fs.readFile(file, 'utf-8')
+    const data = await fs.readFile(file, 'utf-8');
     const lines = data.trim().split('\n');
     const studentByField = {};
     let totalStudents = 0;
@@ -18,7 +19,7 @@ async function countStudents(file) {
     lines.forEach((line) => {
       const [firstname, lastname, age, field] = line.split(',');
       if (firstname && lastname && age && field) {
-        if(!studentByField[field]) {
+        if (!studentByField[field]) {
           studentByField[field] = [];
         }
         studentByField[field].push(firstname);
@@ -32,8 +33,8 @@ async function countStudents(file) {
     return output.trim();
   } catch (error) {
     throw new Error('Cannot load the database');
-  };
-};
+  }
+}
 
 const app = http.createServer(async (req, res) => {
   res.setHeader('Content-Type', 'text/plain');
@@ -47,7 +48,7 @@ const app = http.createServer(async (req, res) => {
         const studentData = await countStudents(filePath);
         res.end(studentData);
       } catch (error) {
-        res.end(error.message)
+        res.end(error.message);
       }
     } else {
       res.end('No database provided');
