@@ -1,63 +1,56 @@
-/*
- * create complex http server using express
+/**
+ * Create a more complex HTTP server using Express
  */
-
 const fs = require('fs');
 const express = require('express');
 
+const app = express();
 const port = 1245;
 
-function countStudents(file) {
+function countStudents(path) {
   return new Promise((resolve, reject) => {
-    fs.readFile(file, 'utf-8', (err, data) => {
+    fs.readFile(path, 'utf8', (err, records) => {
       if (err) reject(new Error('Cannot load the database'));
+      else {
+        const content = records.split('\n');
+        const cslist = [];
+        const swelist = [];
 
-      const lines = data.split('\n');
-      lines.shift();
-
-      const studentByField = {};
-      let totalStudents = 0;
-
-      lines.forEach((line) => {
-        const [firstname, lastname, age, field] = line.split(',');
-        if (firstname && lastname && age && field) {
-          if (!studentByField[field]) {
-            studentByField[field] = [];
+        content.forEach((record) => {
+          const field = record.split(',');
+          if (field !== [] && field !== null) {
+            if (field[3] === 'CS') {
+              cslist.push(field[0]);
+            } else if (field[3] === 'SWE') {
+              swelist.push(field[0]);
+            }
           }
-          studentByField[field].push(firstname);
-          totalStudents += 1;
-        }
-      });
-
-      let output = `Number of students: ${totalStudents}\n`;
-      for (const [field, studs] of Object.entries(studentByField)) {
-        output += `Number of students in ${field}: ${studs.length}. List: ${studs.join(', ')}\n`;
+        });
+        let str = `Number of students: ${cslist.length + swelist.length}\n`;
+        str += `Number of students in CS: ${cslist.length}. List: ${cslist.join(', ')}\n`;
+        str += `Number of students in SWE: ${swelist.length}. List: ${swelist.join(', ')}`;
+        resolve(str);
       }
-      resolve(output.trim());
     });
   });
 }
-
-const app = express();
 
 app.get('/', (req, res) => {
   res.send('Hello Holberton School!');
 });
 
 app.get('/students', async (req, res) => {
-  const dataFile = process.argv[2];
-  if (dataFile) {
-    try {
-      const studentData = await countStudents(dataFile);
-      res.send(`This is the list of our students\n${studentData}`);
-    } catch (error) {
-      res.send(error.message);
-    }
-  } else {
-    res.send('No database provided');
+  res.write('This is the list of our students\n');
+  const database = process.argv.length > 2 ? process.argv[2] : '';
+  try {
+    const content = await countStudents(database);
+    res.write(content);
+  } catch (err) {
+    res.write(err.message);
   }
+  res.end();
 });
 
-app.listen(port, () => {
-  console.log(`Server is listening on port: ${port}`);
-});
+app.listen(port);
+
+module.exports = app;
