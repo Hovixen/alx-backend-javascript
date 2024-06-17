@@ -45,15 +45,20 @@ const app = express();
 
 app.get('/students', async (req, res) => {
   res.write('This is the list of our students\n');
-  const database = process.argv.length > 2 ? process.argv[2] : '';
-  try {
-    const content = await countStudents(database);
-    res.write(content);
-  } catch (err) {
-    res.write(err.message);
+  const dataFile = process.argv[2];
+  if (dataFile) {
+    try {
+      const studentData = await countStudents(dataFile);
+      res.write(studentData);
+    } catch (error) {
+      res.write(error.message);
+    }
+  } else {
+    res.write('No database provided');
   }
   res.end();
 });
+
 app.listen(port, () => {
   console.log(`Server is listening on port: ${port}`);
 });
