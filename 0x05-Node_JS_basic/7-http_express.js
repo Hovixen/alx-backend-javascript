@@ -45,17 +45,19 @@ app.get('/', (req, res) => {
 });
 
 app.get('/students', async (req, res) => {
+  res.write('This is the list of our students\n');
   const dataFile = process.argv[2];
   if (dataFile) {
     try {
       const studentData = await countStudents(dataFile);
-      res.send(`This is the list of our students\n${studentData}`);
+      res.write(studentData);
     } catch (error) {
-      res.send(`This is the list of our students\n${error.message}`);
+      res.write(error.message);
     }
   } else {
-    res.send('This is the list of our students\nNo database provided');
+    res.write('No database provided');
   }
+  res.end();
 });
 
 app.listen(port, () => {
