@@ -14,8 +14,8 @@ class StudentsController {
         });
 
         const output = fields.map((field) => {
-          const students = data[field].join(', ');
-          return `Number of students in ${field}: ${students.length}. List: ${students}\n`;
+          const students = data[field]
+          return `Number of students in ${field}: ${data[field].length}. List: ${students.join(',' )}\n`;
         });
         response.statusCode = 200;
         response.send(`This is the list of our students\n${output}`);
@@ -28,7 +28,7 @@ class StudentsController {
   }
 
   static async getAllStudentsByMajor(request, response) {
-    const { major } = request.param;
+    const { major } = request.params;
 
     if (major !== 'CS' && major !== 'SWE') {
       response.status(500).send('Major parameter must be CS or SWE');
