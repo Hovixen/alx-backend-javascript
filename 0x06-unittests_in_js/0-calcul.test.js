@@ -32,6 +32,16 @@ describe('calculateNumber', () => {
     assert.strictEqual(calculateNumber(0.5, 0.5), 2);
   });
 
+    it("should return -6 with -1.6 and -3.7", function() {
+    assert.equal(calculateNumber(-1.6, -3.7), -6);
+  });
+  it("should return 2 with -1.6 and 3.7", function() {
+    assert.equal(calculateNumber(-1.6, 3.7), 2);
+  });
+  it("should return 2 with -1.6 and 3.7", function() {
+    assert.equal(calculateNumber(-1.6, 3.7), 2);
+  });
+
   it('should return 0 when inputs are 0 and 0', () => {
     assert.strictEqual(calculateNumber(0, 0), 0);
   });
